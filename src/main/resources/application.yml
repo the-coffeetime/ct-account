@@ -1,4 +1,4 @@
-# H2 ??
+# H2 설정
 spring:
   jpa:
     properties:
