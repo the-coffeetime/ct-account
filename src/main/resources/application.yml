@@ -1,9 +1,23 @@
 # H2 설정
 spring:
   jpa:
+    hibernate:
+      naming:
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     properties:
       hibernate:
         globally_quoted_identifiers: true
         globally_quoted_identifiers_skip_column_definitions: true
+
+  datasource:
+    hikari:
+      driver-class-name: org.mariadb.jdbc.Driver
+  #    이하 Configure 통해 주입
+  #    url:
+  #    username:
+  #    password:
+logging:
+  config: classpath:log4j2.xml
 #  mvc:
 #    static-path-pattern: /resources/**

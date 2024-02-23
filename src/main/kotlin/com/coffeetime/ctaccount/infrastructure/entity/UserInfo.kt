@@ -1,11 +1,11 @@
-package com.coffeetime.ctaccount.model
+package com.coffeetime.ctaccount.infrastructure.entity
 
 import jakarta.persistence.*
 import java.time.Instant
 
 @Entity
 @Table(name = "userInfo")
-class User(
+class UserInfo(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val userID: Int? = null,

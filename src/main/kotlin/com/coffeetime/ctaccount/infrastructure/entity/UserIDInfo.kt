@@ -1,4 +1,4 @@
-package com.coffeetime.ctaccount.model
+package com.coffeetime.ctaccount.infrastructure.entity
 
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
@@ -7,7 +7,7 @@ import jakarta.persistence.Table
 
 @Entity
 @Table(name = "userIDInfo")
-class UserID(
+class UserIDInfo(
     @Id
     @Column(length = 255)
     var socialID: String,

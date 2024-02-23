@@ -21,10 +21,20 @@ repositories {
 	mavenCentral()
 }
 
+configurations {
+	all {
+		exclude(group = "org.springframework.boot", module = "spring-boot-starter-logging")
+	}
+}
+
 dependencies {
+	// Spring
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation("org.springframework.boot:spring-boot-starter-mustache")
 	implementation("org.springframework.boot:spring-boot-starter-web")
+	implementation("org.springframework.boot:spring-boot-starter-log4j2")
+	implementation("org.springframework.plugin:spring-plugin-core:2.0.0.RELEASE")
+	implementation("org.springframework:spring-core:6.1.3")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
@@ -36,6 +46,15 @@ dependencies {
 	testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
 	testImplementation("com.ninja-squad:springmockk:4.0.2")
 	kapt("org.springframework.boot:spring-boot-configuration-processor")
+	kapt("org.springframework.boot:spring-boot-starter-data-jpa")
+	implementation("io.springfox:springfox-swagger2:2.8.0")
+	implementation("io.springfox:springfox-swagger-ui:2.8.0")
+
+	// RDBMS
+	implementation("com.zaxxer:HikariCP:4.0.3")
+	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+	implementation("mysql:mysql-connector-java:8.0.33")
+	implementation("org.mariadb.jdbc:mariadb-java-client:3.3.2")
 }
 
 
@@ -54,4 +73,8 @@ allOpen {
 	annotation("jakarta.persistence.Entity")
 	annotation("jakarta.persistence.Embeddable")
 	annotation("jakarta.persistence.MappedSuperclass")
+}
+
+kapt {
+	correctErrorTypes = true
 }
