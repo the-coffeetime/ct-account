@@ -55,6 +55,10 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation("mysql:mysql-connector-java:8.0.33")
 	implementation("org.mariadb.jdbc:mariadb-java-client:3.3.2")
+
+	// Error handling
+	implementation("org.thymeleaf:thymeleaf:3.1.2.RELEASE")
+	implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
 }
 
 
@@ -67,6 +71,17 @@ tasks.withType<KotlinCompile> {
 
 tasks.withType<Test> {
 	useJUnitPlatform()
+}
+
+dependencies {
+	testImplementation("org.springframework.boot:spring-boot-starter-test") {
+		exclude(group = "org.junit.vintage", module = "junit-vintage-engine") // JUnit 4 제외
+	}
+	testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.2")
+	testImplementation("org.junit.jupiter:junit-jupiter-engine:5.10.2")
+	testImplementation("org.junit.jupiter:junit-jupiter-params:5.10.2")
+	testImplementation("org.mockito:mockito-core:3.6.28")
+	testImplementation("org.mockito.kotlin:mockito-kotlin:3.2.0")
 }
 
 allOpen {
