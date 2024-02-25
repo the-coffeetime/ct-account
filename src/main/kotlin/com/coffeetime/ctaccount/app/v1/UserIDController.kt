@@ -4,7 +4,9 @@ import com.coffeetime.ctaccount.domain.model.UserIDRequest
 import com.coffeetime.ctaccount.domain.model.UserIDResponse
 import com.coffeetime.ctaccount.domain.service.UserIDService
 import com.coffeetime.ctaccount.infrastructure.entity.UserIDInfo
+import jakarta.persistence.LockModeType
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.jpa.repository.Lock
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -25,6 +27,7 @@ class UserIDController(@Autowired private val userIDService: UserIDService) {
         }
     }
 
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
     @PostMapping("/register")
     fun register(@RequestBody userIDRequest: UserIDRequest): ResponseEntity<UserIDResponse> {
         val userID = UserIDInfo(
