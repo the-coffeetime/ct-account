@@ -13,12 +13,15 @@ class UserIDServiceImpl : UserIDService {
     override fun saveOrUpdateUserID(userID: UserIDInfo): UserIDInfo {
         return repository.save(userID)
     }
+
     override fun findBySocialID(socialID: String): UserIDInfo? {
         return repository.findBySocialID(socialID)
     }
+
     override fun findByUserID(userID: Int): Iterable<UserIDInfo>? {
         return repository.findByUserID(userID)
     }
+
     override fun findAll(): Iterable<UserIDInfo> {
         return repository.findAll()
     }
