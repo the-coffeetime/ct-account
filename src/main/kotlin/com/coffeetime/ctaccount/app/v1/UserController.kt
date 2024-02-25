@@ -26,6 +26,7 @@ class UserController(@Autowired private val userService: UserService, @Autowired
         }
     }
 
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
     @PostMapping("/register")
     fun register(@RequestBody userReq: UserRegisterRequest): ResponseEntity<Int> {
         Thread.sleep(Math.random().toLong() * 300L + 100)
