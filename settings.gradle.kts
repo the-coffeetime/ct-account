@@ -1,1 +1,1 @@
-rootProject.name = "ct-account"
+rootProject.name = "ct-auth"
