@@ -19,6 +19,15 @@ class UserInfo(
     @Column(nullable = false, length = 80)
     var nickName: String,
 
+    @Column(length = 255)
+    var socialIDGoogle: String? = null,
+
+    @Column(length = 255)
+    var socialIDNaver: String? = null,
+
+    @Column(length = 255)
+    var socialIDKakao: String? = null,
+
     @Column(unique = true, length = 255)
     var email: String? = null,
 

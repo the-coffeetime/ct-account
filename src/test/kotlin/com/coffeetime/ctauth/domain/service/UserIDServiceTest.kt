@@ -1,6 +1,5 @@
 package com.coffeetime.ctauth.domain.service
 
-import com.coffeetime.ctauth.infrastructure.entity.UserIDInfo
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
