@@ -6,9 +6,7 @@ import com.coffeetime.ctauth.common.property.naver
 import com.coffeetime.ctauth.domain.model.UserRegisterRequest
 import com.coffeetime.ctauth.domain.service.UserService
 import com.coffeetime.ctauth.infrastructure.entity.UserInfo
-import jakarta.persistence.LockModeType
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.data.jpa.repository.Lock
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
@@ -43,11 +41,18 @@ class UserController(@Autowired private val userService: UserService) {
         return ResponseEntity.ok(userService.findAll())
     }
 
-    @Lock(LockModeType.PESSIMISTIC_WRITE)
+
     @PostMapping("/register")
     fun register(@RequestBody userReq: UserRegisterRequest): ResponseEntity<Int> {
         Thread.sleep(Math.random().toLong() * 300L + 100)
         val socialID = userReq.socialID
+        val socialService = userReq.socialService
+        if (socialID.isBlank() || socialService.isBlank())
+            return ResponseEntity.badRequest().body(-1)
+        if (userService.findBySocialID(socialID, socialService) != null)
+            return ResponseEntity.badRequest().body(-2)
+        if (socialService != google && socialService != naver && socialService != kakao)
+            return ResponseEntity.badRequest().body(-3)
 
         val jobs:MutableList<String?> = userReq.jobs.toMutableList()
         for (i in 1 .. (4 - jobs.size))
@@ -60,6 +65,11 @@ class UserController(@Autowired private val userService: UserService) {
             job3 = jobs[2],
             job4 = jobs[3],
         )
+        when (socialService) {
+            google -> user.socialIDGoogle = socialID
+            naver -> user.socialIDNaver = socialID
+            kakao -> user.socialIDKakao = socialID
+        }
 
         val savedID = userService.saveOrUpdateUser(user).userID
 
