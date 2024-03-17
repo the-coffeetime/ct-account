@@ -4,8 +4,9 @@ import com.coffeetime.ctauth.common.property.google
 import com.coffeetime.ctauth.common.property.kakao
 import com.coffeetime.ctauth.common.property.naver
 import com.coffeetime.ctauth.domain.model.UserRegisterRequest
+import com.coffeetime.ctauth.domain.model.UserRegisterResponse
+import com.coffeetime.ctauth.domain.model.UserResponse
 import com.coffeetime.ctauth.domain.service.UserService
-import com.coffeetime.ctauth.infrastructure.entity.UserInfo
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.*
 class UserController(@Autowired private val userService: UserService) : IUserController {
     @GetMapping
     override fun findUser(
-        @RequestParam(required = false) userID: Int?,
+        @RequestParam(required = false) userID: Long?,
         @RequestParam(required = false) socialID: String?,
         @RequestParam(required = false) service: String?
     ): ResponseEntity<Any> {
@@ -37,42 +38,29 @@ class UserController(@Autowired private val userService: UserService) : IUserCon
     }
 
     @GetMapping("/all")
-    override fun findAllUsers(): ResponseEntity<Iterable<UserInfo>> {
+    override fun findAllUsers(): ResponseEntity<Iterable<UserResponse>> {
         return ResponseEntity.ok(userService.findAll())
     }
 
 
     @PostMapping("/register")
-    override fun registerUser(@RequestBody userReq: UserRegisterRequest): ResponseEntity<Int> {
+    override fun registerUser(@RequestBody userReq: UserRegisterRequest): ResponseEntity<UserRegisterResponse> {
         Thread.sleep(Math.random().toLong() * 300L + 100)
         val socialID = userReq.socialID
         val socialService = userReq.socialService
+
         if (socialID.isBlank() || socialService.isBlank())
-            return ResponseEntity.badRequest().body(-1)
+            return ResponseEntity.badRequest().body(UserRegisterResponse(userID=-1))
         if (userService.findBySocialID(socialID, socialService) != null)
-            return ResponseEntity.badRequest().body(-2)
+            return ResponseEntity.badRequest().body(UserRegisterResponse(userID=-2))
         if (socialService != google && socialService != naver && socialService != kakao)
-            return ResponseEntity.badRequest().body(-3)
+            return ResponseEntity.badRequest().body(UserRegisterResponse(userID=-3))
 
-        val jobs:MutableList<String?> = userReq.jobs.toMutableList()
-        for (i in 1 .. (4 - jobs.size))
-            jobs.add(null)
-        val user = UserInfo(
-            nickName = userReq.nickName,
-            profilePictureURL = userReq.profilePictureURL,
-            job1 = jobs[0],
-            job2 = jobs[1],
-            job3 = jobs[2],
-            job4 = jobs[3],
-        )
-        when (socialService) {
-            google -> user.socialIDGoogle = socialID
-            naver -> user.socialIDNaver = socialID
-            kakao -> user.socialIDKakao = socialID
-        }
+        val userRegisterResponse = userService.saveOrUpdateUser(userReq)
+        val savedID = userRegisterResponse.userID
+        if (savedID <= 0)
+            return ResponseEntity.badRequest().body(userRegisterResponse.userID(savedID))
 
-        val savedID = userService.saveOrUpdateUser(user).userID
-
-        return ResponseEntity.ok(savedID)
+        return ResponseEntity.ok(userRegisterResponse)
     }
 }

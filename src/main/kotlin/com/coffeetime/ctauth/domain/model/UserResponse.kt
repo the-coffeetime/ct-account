@@ -17,5 +17,5 @@ data class UserResponse(
     val jobs: List<String>,
     val company: String? = null,
     val introduction: String? = null,
-    val status: String,
+    val status: String? = null,
 )

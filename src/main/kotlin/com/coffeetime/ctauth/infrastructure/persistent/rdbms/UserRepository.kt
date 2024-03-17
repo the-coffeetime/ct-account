@@ -6,7 +6,6 @@ import com.coffeetime.ctauth.infrastructure.entity.UserInfo
 import org.springframework.data.repository.CrudRepository
 
 interface UserRepository : CrudRepository<UserInfo, Long> {
-    fun findByUserID(userID: Int): UserInfo?
     fun findBySocialIDGoogle(socialIDGoogle: String): UserInfo?
     fun findBySocialIDNaver(socialIDNaver: String): UserInfo?
     fun findBySocialIDKakao(socialIDKakao: String): UserInfo?
