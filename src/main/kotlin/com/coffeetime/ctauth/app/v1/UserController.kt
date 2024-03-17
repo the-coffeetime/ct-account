@@ -12,12 +12,12 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/api/v1/user")
-class UserController(@Autowired private val userService: UserService) {
+class UserController(@Autowired private val userService: UserService) : IUserController {
     @GetMapping
-    fun findUser(
+    override fun findUser(
         @RequestParam(required = false) userID: Int?,
-        @RequestParam(required = false) socialID: String? = null,
-        @RequestParam(required = false) service: String? = null
+        @RequestParam(required = false) socialID: String?,
+        @RequestParam(required = false) service: String?
     ): ResponseEntity<Any> {
         return when {
             userID != null -> {
@@ -37,13 +37,13 @@ class UserController(@Autowired private val userService: UserService) {
     }
 
     @GetMapping("/all")
-    fun findAll(): ResponseEntity<Iterable<UserInfo>> {
+    override fun findAll(): ResponseEntity<Iterable<UserInfo>> {
         return ResponseEntity.ok(userService.findAll())
     }
 
 
     @PostMapping("/register")
-    fun register(@RequestBody userReq: UserRegisterRequest): ResponseEntity<Int> {
+    override fun register(@RequestBody userReq: UserRegisterRequest): ResponseEntity<Int> {
         Thread.sleep(Math.random().toLong() * 300L + 100)
         val socialID = userReq.socialID
         val socialService = userReq.socialService
