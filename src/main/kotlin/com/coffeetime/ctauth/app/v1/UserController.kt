@@ -37,13 +37,13 @@ class UserController(@Autowired private val userService: UserService) : IUserCon
     }
 
     @GetMapping("/all")
-    override fun findAll(): ResponseEntity<Iterable<UserInfo>> {
+    override fun findAllUsers(): ResponseEntity<Iterable<UserInfo>> {
         return ResponseEntity.ok(userService.findAll())
     }
 
 
     @PostMapping("/register")
-    override fun register(@RequestBody userReq: UserRegisterRequest): ResponseEntity<Int> {
+    override fun registerUser(@RequestBody userReq: UserRegisterRequest): ResponseEntity<Int> {
         Thread.sleep(Math.random().toLong() * 300L + 100)
         val socialID = userReq.socialID
         val socialService = userReq.socialService

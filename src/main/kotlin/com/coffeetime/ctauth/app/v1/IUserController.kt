@@ -17,8 +17,8 @@ interface IUserController {
     ): ResponseEntity<Any>
 
     @GetMapping("/all")
-    fun findAll(): ResponseEntity<Iterable<UserInfo>>
+    fun findAllUsers(): ResponseEntity<Iterable<UserInfo>>
 
     @PostMapping("/register")
-    fun register(@RequestBody userReq: UserRegisterRequest): ResponseEntity<Int>
+    fun registerUser(@RequestBody userReq: UserRegisterRequest): ResponseEntity<Int>
 }
