@@ -9,6 +9,6 @@ interface UserRepository : CrudRepository<UserInfo, Long> {
     fun findBySocialIDGoogle(socialIDGoogle: String): UserInfo?
     fun findBySocialIDNaver(socialIDNaver: String): UserInfo?
     fun findBySocialIDKakao(socialIDKakao: String): UserInfo?
-    fun findPostUserByUserID(userID: Int): UserPostProjection
-    fun findCommentUserByUserID(userID: Int): UserCommentProjection
+    fun findPostUserByUserID(userID: Long): UserPostProjection
+    fun findCommentUserByUserID(userID: Long): UserCommentProjection
 }

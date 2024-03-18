@@ -8,7 +8,7 @@ import java.time.Instant
 class UserInfo(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val userID: Int? = null,
+    val userID: Long? = null,
 
     @Column(nullable = false)
     var createdAt: Instant = Instant.now(),
@@ -36,9 +36,6 @@ class UserInfo(
 
     @Column(nullable = false)
     var verified: Boolean = false,
-
-    @Column(nullable = false)
-    var reports: Int = 0,
 
     @Column(length = 30)
     var job1: String? = null,

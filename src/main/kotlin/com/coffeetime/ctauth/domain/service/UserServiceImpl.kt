@@ -83,7 +83,6 @@ fun UserInfo.toUserResponse(): UserResponse {
         email = this.email,
         profilePictureURL = this.profilePictureURL,
         verified = this.verified,
-        reports = this.reports,
         jobs = listOfNotNull(this.job1, this.job2, this.job3, this.job4),
         company = this.company,
         introduction = this.introduction,

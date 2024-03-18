@@ -1,9 +1,9 @@
 package com.coffeetime.ctauth.domain.model
 
 data class UserRegisterResponse (
-    var userID: Int
+    var userID: Long
 ) {
-    fun userID(userID: Int): UserRegisterResponse {
+    fun userID(userID: Long): UserRegisterResponse {
         this.userID = userID
         return this
     }
